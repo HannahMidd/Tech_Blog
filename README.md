@@ -26,7 +26,6 @@ To install necessary dependencies / get started, run the following command:
 
 Go to the application at https://boiling-mountain-21725-733336463884.herokuapp.com/ and create an account (or log in if you already have an account). Make posts, or reply to the posts of other users within the application. 
 
-
 ## Usage
 
 Follow the prompts to post, delete, or comment within your own posts or the posts of others. If you have coding questions or advice to give, please dont hesitate to make a post! 
