@@ -14,6 +14,7 @@ Comment.init(
         sequelize,
         modelName: 'Comment',
         tableName: 'comment',
+        freezeTableName: true,
     }
 );
 
