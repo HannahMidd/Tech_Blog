@@ -10,6 +10,8 @@ Post.init(
     },
     {
         sequelize,
+        modelName: 'Post',
+        tableName: 'post',
     }
 );
 
