@@ -7,8 +7,13 @@ const exphbs = require('express-handlebars');
 
 const app = express();
 
-const sequelize = require('./config/config.js');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const sequelize = require('./config/config.js'); // Import the Sequelize instance
+
+// Initialize a new SequelizeStore and pass the sequelize instance to it
+const sessionStore = new SequelizeStore({
+    db: sequelize,
+});
 
 app.use(
     session({
