@@ -1,9 +1,10 @@
 require('dotenv').config();
 
 const express = require('express');
-const { join } = require('path');
+const path = require('path');
 const session = require('express-session');
 const exphbs = require('express-handlebars');
+const helpers = require('./utils/helpers');
 
 const app = express();
 
@@ -11,33 +12,31 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const sequelize = require('./config/config.js'); // Import the Sequelize instance
 
 // Initialize a new SequelizeStore and pass the sequelize instance to it
-const sessionStore = new SequelizeStore({
-    db: sequelize,
-});
+// const sessionStore = new SequelizeStore({
+//     db: sequelize,
+// });
+const sess = {
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+        maxAge: 300000,
+        httpOnly: true,
+        secure: false,
+        sameSite: 'strict',
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize,
+    }),
+};
+app.use(session(sess));
 
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        cookie: {
-            maxAge: 300000,
-            httpOnly: true,
-            secure: false,
-            sameSite: 'strict',
-        },
-        resave: false,
-        saveUninitialized: true,
-        store: new SequelizeStore({
-            db: sequelize,
-        }),
-    })
-);
-
-const hbs = exphbs.create({});
+const hbs = exphbs.create({ helpers });
 
 app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
